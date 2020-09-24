@@ -5,6 +5,12 @@
 ### Installing Dependencies
 
 #### Python 3.7
+```
+https://dev.to/malwarebo/how-to-set-python3-as-a-default-python-version-on-mac-4jjf
+
+Force to install python 3.7
+ln -s -f /usr/local/bin/python3.7 /usr/local/bin/python
+```
 
 Follow instructions to install the latest version of python for your platform in the [python docs](https://docs.python.org/3/using/unix.html#getting-and-installing-the-latest-version-of-python)
 
