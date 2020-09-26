@@ -89,3 +89,22 @@ There are `@TODO` comments throughout the `./backend/src`. We recommend tackling
 
 1. `./src/auth/auth.py`
 2. `./src/api.py`
+
+
+### Miscelaneous
+To import models in python terminal:
+```
+export PYTHONPATH=database
+```
+
+### Auth0 - Auth Service
+```
+URL:
+
+https://mazpe.us.auth0.com/authorize?
+  audience=image&
+  response_type=token&
+  client_id=3lf13WcJ0ciLvsRHvp4umZp3JrgXlwap&
+  redirect_uri=https://127.0.0.1:8080/login-results
+```
+

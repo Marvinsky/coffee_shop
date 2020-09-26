@@ -4,6 +4,9 @@ from sqlalchemy import exc
 import json
 from flask_cors import CORS
 
+import sys
+
+# for the first register uncomment .
 from .database.models import db_drop_and_create_all, setup_db, Drink
 from .auth.auth import AuthError, requires_auth
 
@@ -16,7 +19,7 @@ CORS(app)
 !! NOTE THIS WILL DROP ALL RECORDS AND START YOUR DB FROM SCRATCH
 !! NOTE THIS MUST BE UNCOMMENTED ON FIRST RUN
 '''
-db_drop_and_create_all()
+#db_drop_and_create_all()
 
 ## ROUTES
 '''
@@ -48,7 +51,18 @@ def get_drinks():
     returns status code 200 and json {"success": True, "drinks": drinks} where drinks is the list of drinks
         or appropriate status code indicating reason for failure
 '''
-
+@app.route('/drinks-detail', methods=['GET'])
+@requires_auth('get:drinks-detail')
+def get_drinks_details(jwt):
+    print("get drink details: ", jwt)
+    drinks = [d.long() for d in Drink.query.all()]
+    if len(drinks) == 0:
+        abort(404)
+    
+    return jsonify({
+        'success': True,
+        'drinks': drinks
+    })
 
 '''
 @TODO implement endpoint
@@ -59,7 +73,39 @@ def get_drinks():
     returns status code 200 and json {"success": True, "drinks": drink} where drink an array containing only the newly created drink
         or appropriate status code indicating reason for failure
 '''
+@app.route('/drinks', methods=['POST'])
+@requires_auth('post:drinks')
+def create_drink(jwt):
+    body = request.get_json()
+    title = body.get('title', 'new title')
+    recipe = body.get('recipe', None)
+    if recipe is None:
+        abort(404)
 
+    name = recipe.get('name', None)
+    color = recipe.get('color', None)
+    parts = recipe.get('parts', 0)
+    print("\nname= ", name, "\ncolor= ", color, "\nparts= ", parts)
+    '''
+    recipe = {
+        "name": name,
+        "color": color,
+        "parts": parts
+    }
+    '''
+    try:
+        drink = Drink(title=title, recipe=json.dumps(recipe))
+        drink.insert()
+
+        drinks = [d.long() for d in Drink.query.all()]
+        
+        return jsonify({
+                'success': True,
+                'drinks': drinks
+            })
+    except:
+        print(sys.exc_info())
+        abort(422)
 
 '''
 @TODO implement endpoint
@@ -72,7 +118,31 @@ def get_drinks():
     returns status code 200 and json {"success": True, "drinks": drink} where drink an array containing only the updated drink
         or appropriate status code indicating reason for failure
 '''
+@app.route('/drinks/<int:drink_id>', methods=['PATCH'])
+@requires_auth('patch:drinks')
+def update_drink(jwt, drink_id):
+    body = request.get_json()
+    title = body.get('title', None)
 
+    if title is None:
+        print("title is not sent.")
+        abort(404)
+
+    try:
+        drink = Drink.query.filter_by(id=drink_id).one_or_none()
+        if drink is None:
+            abort(404)
+        drink.title = title
+        drink.update()
+        
+        drinks = [d.long() for d in Drink.query.all()]
+        return jsonify({
+            "success": True,
+            "drinks": drinks
+        })
+    except:
+        print(sys.exc_info())
+        abort(422)
 
 '''
 @TODO implement endpoint
