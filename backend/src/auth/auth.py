@@ -71,8 +71,6 @@ def get_token_auth_header():
     return true otherwise
 '''
 def check_permissions(permission, payload):
-    print("\npermission = ", permission)
-    print("\npayload = ", payload)
     if 'permissions' not in payload:
         raise AuthError({
             'code': 'invalid_claims',
@@ -100,11 +98,9 @@ def check_permissions(permission, payload):
     !!NOTE urlopen has a common certificate error described here: https://stackoverflow.com/questions/50236117/scraping-ssl-certificate-verify-failed-error-for-http-en-wikipedia-org
 '''
 def verify_decode_jwt(token):
-    print("\ntoken = {}\n".format(token))
     jsonurl = urlopen(f'https://{AUTH0_DOMAIN}/.well-known/jwks.json')
     jwks = json.loads(jsonurl.read())
     unverified_header = jwt.get_unverified_header(token)
-    print("\nunverified_header = {}\n".format(unverified_header))
     rsa_key = {}
     if 'kid' not in unverified_header:
         raise AuthError({
@@ -123,7 +119,6 @@ def verify_decode_jwt(token):
             }
     if rsa_key:
         try:
-            print("before decode")
             payload = jwt.decode(
                 token,
                 rsa_key,
@@ -131,7 +126,6 @@ def verify_decode_jwt(token):
                 audience=API_AUDIENCE,
                 issuer='https://' + AUTH0_DOMAIN + '/'
             )
-            print("payload = ", payload)
             return payload
         except jwt.ExpiredSignatureError:
             raise AuthError({
@@ -174,7 +168,6 @@ def requires_auth(permission=''):
             token = get_token_auth_header()
             try:
                 payload = verify_decode_jwt(token)
-                print('payload= ', payload)
             except:
                 print(sys.exc_info())
                 abort(401)

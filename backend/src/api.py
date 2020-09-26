@@ -53,7 +53,6 @@ def get_drinks():
 @app.route('/drinks-detail', methods=['GET'])
 @requires_auth('get:drinks-detail')
 def get_drinks_details(jwt):
-    print("get drink details: ", jwt)
     drinks = [d.long() for d in Drink.query.all()]
     if len(drinks) == 0:
         abort(404)
@@ -85,6 +84,11 @@ def create_drink(jwt):
         abort(404)
     
     try:
+        search_drink = Drink.query.filter(Drink.title == title).one_or_none()
+        if search_drink is not None:
+            print("title already exists.")
+            abort(404)
+
         drink = Drink(title=title, recipe=json.dumps(recipe))
         drink.insert()
         

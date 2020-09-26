@@ -101,8 +101,9 @@ export PYTHONPATH=database
 ```
 URL:
 
+audience=dev
 https://mazpe.us.auth0.com/authorize?
-  audience=image&
+  audience=dev&
   response_type=token&
   client_id=3lf13WcJ0ciLvsRHvp4umZp3JrgXlwap&
   redirect_uri=https://127.0.0.1:8080/login-results
