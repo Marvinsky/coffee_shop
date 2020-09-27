@@ -281,8 +281,8 @@
 							"script": {
 								"id": "fba0f93d-d3a7-4aa0-8dfb-e79df13a7f1c",
 								"exec": [
-									"pm.test(\"Status code is 401\", function () {",
-									"    pm.response.to.have.status(401);",
+									"pm.test(\"Status code is 403\", function () {",
+									"    pm.response.to.have.status(403);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -322,8 +322,8 @@
 							"script": {
 								"id": "fd95dac5-db32-40bd-a0da-222e28417d92",
 								"exec": [
-									"pm.test(\"Status code is 401\", function () {",
-									"    pm.response.to.have.status(401);",
+									"pm.test(\"Status code is 403\", function () {",
+									"    pm.response.to.have.status(403);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -364,8 +364,8 @@
 							"script": {
 								"id": "b5d3bb03-08c2-40ee-92b6-921bebb6efd4",
 								"exec": [
-									"pm.test(\"Status code is 401\", function () {",
-									"    pm.response.to.have.status(401);",
+									"pm.test(\"Status code is 403\", function () {",
+									"    pm.response.to.have.status(403);",
 									"});"
 								],
 								"type": "text/javascript"
@@ -556,7 +556,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"title\": \"Water1\",\n    \"recipe\": {\n        \"name\": \"Water\",\n        \"color\": \"blue\",\n        \"parts\": 1\n    }\n}"
+							"raw": "{\n    \"title\": \"Water205\",\n    \"recipe\": {\n        \"name\": \"Water\",\n        \"color\": \"blue\",\n        \"parts\": 1\n    }\n}"
 						},
 						"url": {
 							"raw": "{{host}}/drinks",
@@ -658,13 +658,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/drinks/3",
+							"raw": "{{host}}/drinks/11",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"drinks",
-								"3"
+								"11"
 							]
 						}
 					},
